@@ -16,6 +16,7 @@ public class Player {
     private CollRect collRect;
     private float time = 0;
     private float speed = 5;
+    private CollsionREcatangle col = new CollsionREcatangle();
 
     public Player() {
         this.Hero = App.Games.get(App.UserLoginId).getHero();
@@ -23,6 +24,10 @@ public class Player {
         this.playerSprite = new Sprite(this.playerTexture);
         this.playerSprite.setSize(playerTexture.getWidth() * 3, playerTexture.getHeight() * 3);
         this.playerHealth = this.Hero.Hp;
+        col.setX(this.getPosX());
+        col.setY(this.getPosY());
+        col.setWidth(playerTexture.getWidth());
+        col.setHeight(playerTexture.getHeight());
     }
 
     public float getPosX() {

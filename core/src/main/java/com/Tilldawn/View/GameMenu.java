@@ -28,10 +28,6 @@ public class GameMenu implements Screen {
         for(int i = 0;i < App.ReturnCurrentGame().NUmberOfTreeMonsters ; i++) {
             controller.getEnemyController().getTreecontroller().CreateTree();
         }
-        for(int i = 0;i <10 ; i++)
-        {
-            controller.getEnemyController().getTenteacontroller().CreateTentacleMonster();
-        }
         camera.position.set(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f, 0);
         camera.update();
         Table table = new Table();
@@ -39,13 +35,27 @@ public class GameMenu implements Screen {
         Gdx.input.setInputProcessor(stage);
         table.setFillParent(true);
         table.center();
-        table.add(new Label("STart Game" , GameAssets.getInstance().getSkin()));
         stage.addActor(table);
     }
 
     @Override
     public void render(float v) {
-        App.ReturnCurrentGame().getTotalTime()
+        App.ReturnCurrentGame().getTimer().IncreaseTime(v);
+        if(App.ReturnCurrentGame().getTimer().getTacnecalMonsterSpawn() > 3)
+        {
+            for(int i = 0;i < v / 10 ; i++) {
+                controller.getEnemyController().getTenteacontroller().CreateTentacleMonster();
+                App.ReturnCurrentGame().getTimer().setTacnecalMonsterSpawn(0);
+            }
+        }
+        if(App.ReturnCurrentGame().getTotalTime() / 4 < App.ReturnCurrentGame().getTimer().getTime()) {
+            if (App.ReturnCurrentGame().getTimer().getEyebatSpawn() > 10) {
+                for (int i = 0; i < (4 * App.ReturnCurrentGame().getTimer().getTime() - App.ReturnCurrentGame().getTotalTime() + 30) / 30; i++) {
+                    controller.getEnemyController().getEyecontroller().CreateEyeBatMonster();
+                }
+                App.ReturnCurrentGame().getTimer().setEyebatSpawn(0);
+            }
+        }
         float heroX = controller.getPlayer().getPosX();
         float heroY = controller.getPlayer().getPosY();
         camera.position.set(heroX, heroY, 0);

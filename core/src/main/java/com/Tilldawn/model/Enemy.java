@@ -10,6 +10,7 @@ public class Enemy {
     protected Texture texture;
     protected Sprite EnemySprite;
     protected int Hp;
+    protected CollsionREcatangle collisionREcatangle  = new CollsionREcatangle();
 
     public float getXPos() {
         return XPos;

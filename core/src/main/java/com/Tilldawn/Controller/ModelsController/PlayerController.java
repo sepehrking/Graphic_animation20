@@ -2,9 +2,13 @@ package com.Tilldawn.Controller.ModelsController;
 
 import com.Tilldawn.Controller.GirdController;
 import com.Tilldawn.Main;
+import com.Tilldawn.model.App;
+import com.Tilldawn.model.Bullet;
 import com.Tilldawn.model.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class PlayerController {
     private Player player;
@@ -31,7 +35,22 @@ public class PlayerController {
     {
         player.getPlayerSprite().setPosition(player.getPosX() ,player.getPosY());
         player.getPlayerSprite().draw(Main.getBatch());
+        Texture weaopen = new Texture(Gdx.files.internal(App.ReturnCurrentGame().getWeopen().Addres));
+        Sprite weaopenSprite = new Sprite(weaopen);
+        weaopenSprite.setSize(weaopenSprite.getWidth() * 4  , weaopenSprite.getHeight() * 4);
+        weaopenSprite.setPosition(player.getPosX() + 30 ,player.getPosY() + 10);
+        weaopenSprite.draw(Main.getBatch());
         HandleWalking();
+        HandleShooting();
+    }
+
+    public void HandleShooting()
+    {
+        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+        {
+            Bullet newbullet = new Bullet(App.ReturnCurrentGame().getPlayer().getPosX() , App.ReturnCurrentGame().getPlayer().getPosY());
+            App.ReturnCurrentGame().getBullets().add(newbullet);
+        }
     }
 
 

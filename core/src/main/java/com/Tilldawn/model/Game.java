@@ -9,10 +9,23 @@ public class Game {
     private Player player;
     public final int NUmberOfTreeMonsters = 40;
     private ArrayList<Enemy> enemies = new ArrayList<>();
+    private ArrayList<Bullet> Bullets = new ArrayList<>();
     private Heros hero = Heros.Shana;
-    private int TotalTime = 0;
-    private Weopens Weopen;
+    private int TotalTime = 30;
+    private Weopens Weopen = Weopens.ShotGun;
     private Timer timer = new Timer();
+
+    public ArrayList<Bullet> getBullets() {
+        return Bullets;
+    }
+
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
 
     public Player getPlayer() {
         return player;

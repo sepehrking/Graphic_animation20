@@ -8,5 +8,9 @@ public class TentacleMonster extends Enemy{
         Hp = 25;
         texture = new Texture("Monsters/TentacleIdle0.png");
         EnemySprite = new Sprite(texture);
+        collisionREcatangle.setX(XPos);
+        collisionREcatangle.setY(YPos);
+        collisionREcatangle.setWidth(texture.getWidth());
+        collisionREcatangle.setHeight(texture.getHeight());
     }
 }

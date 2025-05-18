@@ -5,6 +5,7 @@ import com.Tilldawn.Controller.ModelsController.EnemyController;
 import com.Tilldawn.Controller.ModelsController.PlayerController;
 import com.Tilldawn.View.GameMenu;
 import com.Tilldawn.model.App;
+import com.Tilldawn.model.Bullet;
 import com.Tilldawn.model.Enemy;
 import com.Tilldawn.model.Player;
 
@@ -14,8 +15,7 @@ public class GameMenuController {
     private GirdController girdController;
     private EnemyController enemyController;
     private GameMenu gameMenu;
-    private BulletController bulletController;
-
+    private BulletController bulletController = new BulletController();
 
     public EnemyController getEnemyController() {
         return enemyController;
@@ -42,6 +42,10 @@ public class GameMenuController {
         for(Enemy enemy : App.ReturnCurrentGame().getEnemies())
         {
             enemyController.Update(enemy , Delta);
+        }
+        for(Bullet bullet : App.ReturnCurrentGame().getBullets())
+        {
+            bulletController.Update(bullet , Delta);
         }
     }
 }
