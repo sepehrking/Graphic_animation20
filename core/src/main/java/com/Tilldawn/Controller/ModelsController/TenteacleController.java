@@ -21,6 +21,8 @@ public class TenteacleController {
     public void Update(TentacleMonster monster , float Delta)
     {
         HandleWalkNearCharacter(monster , Delta);
+        monster.getCollisionREcatangle().setX(monster.getXPos());
+        monster.getCollisionREcatangle().setY(monster.getYPos());
         monster.getEnemySprite().setPosition(monster.getXPos() , monster.getYPos());
         monster.getEnemySprite().draw(Main.getBatch());
     }

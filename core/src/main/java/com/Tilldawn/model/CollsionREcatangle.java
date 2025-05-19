@@ -39,11 +39,12 @@ public class CollsionREcatangle {
     }
 
     public boolean IsCollide(CollsionREcatangle rec) {
-        if(rec.x > x && rec.x < x + width && rec.y > y && rec.y < y + height)
+
+        if(rec.x >= x - 1 && rec.x < x + width && rec.y > y && rec.y <= y + height + 1)
         {
             return true;
         }
-        if(x > rec.x && x < rec.width + rec.x && y > rec.y && y < rec.height + rec.y)
+        if(x >= rec.x  - 1 && x <= 1 + rec.width + rec.x && y + 1 >= rec.y  && y  -1 <= rec.height + rec.y)
         {
             return true;
         }

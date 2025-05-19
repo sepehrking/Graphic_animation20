@@ -4,12 +4,21 @@ public class Timer {
     private float Time = 0;
     private float TacnecalMonsterSpawn = 0;
     private float EyebatSpawn = 0;
-
+    private float LastTimeDamaged = 0;
     public void IncreaseTime(float Delta)
     {
         Time += Delta;
         TacnecalMonsterSpawn += Delta;
         EyebatSpawn += Delta;
+        LastTimeDamaged += Delta;
+    }
+
+    public float getLastTimeDamaged() {
+        return LastTimeDamaged;
+    }
+
+    public void setLastTimeDamaged(float lastTimeDamaged) {
+        LastTimeDamaged = lastTimeDamaged;
     }
 
     public float getTime() {

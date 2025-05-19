@@ -10,10 +10,28 @@ public class Game {
     public final int NUmberOfTreeMonsters = 40;
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Bullet> Bullets = new ArrayList<>();
+    private ArrayList<Seed> Seeds = new ArrayList<>();
     private Heros hero = Heros.Shana;
     private int TotalTime = 30;
     private Weopens Weopen = Weopens.ShotGun;
     private Timer timer = new Timer();
+    private boolean ISLEVELUP = false;
+
+    public boolean isISLEVELUP() {
+        return ISLEVELUP;
+    }
+
+    public void setISLEVELUP(boolean ISLEVELUP) {
+        this.ISLEVELUP = ISLEVELUP;
+    }
+
+    public ArrayList<Seed> getSeeds() {
+        return Seeds;
+    }
+
+    public void setSeeds(ArrayList<Seed> seeds) {
+        Seeds = seeds;
+    }
 
     public ArrayList<Bullet> getBullets() {
         return Bullets;

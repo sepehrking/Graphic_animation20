@@ -10,52 +10,99 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameMenu implements Screen {
     private OrthographicCamera camera;
     private GameMenuController controller;
     private Stage stage;
+    private Label HpLabel;
+    private Label Time;
+    private Table table = new Table();
+    private Table PauseMenu = new Table();
+    private Table ChooseAbilityTable = new Table();
+    private TextButton FirstAbility;
+    private TextButton SecondAbility;
+    private TextButton ThirdAbility;
+
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+
+    public Table getPauseMenu() {
+        return PauseMenu;
+    }
+
+    public Table getChooseAbilityTable() {
+        return ChooseAbilityTable;
+    }
+
+    public TextButton getFirstAbility() {
+        return FirstAbility;
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public TextButton getSecondAbility() {
+        return SecondAbility;
+    }
+
+    public TextButton getThirdAbility() {
+        return ThirdAbility;
+    }
 
     public GameMenu(GameMenuController controller) {
         this.controller = controller;
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        HpLabel = new Label("Hp :  " + 10 , GameAssets.getInstance().getSkin());
+        Time = new Label("Time :  " + 10 , GameAssets.getInstance().getSkin());
+        FirstAbility = new TextButton("First Ability", GameAssets.getInstance().getSkin());
+        SecondAbility = new TextButton("Second Ability", GameAssets.getInstance().getSkin());
+        ThirdAbility = new TextButton("Third Ability", GameAssets.getInstance().getSkin());
+        controller.setGameMenu(this);
     }
 
     @Override
 
     public void show() {
+        stage = new Stage();
+        table.setFillParent(true);
+        ChooseAbilityTable.setFillParent(true);
+        PauseMenu.setFillParent(true);
+        table.setVisible(true);
+        ChooseAbilityTable.setVisible(false);
+        PauseMenu.setVisible(false);
+        ChooseAbilityTable.add(FirstAbility);
+        ChooseAbilityTable.padLeft(30);
+        ChooseAbilityTable.add(SecondAbility);
+        ChooseAbilityTable.padLeft(30);
+        ChooseAbilityTable.add(ThirdAbility);
+        stage.addActor(ChooseAbilityTable);
         for(int i = 0;i < App.ReturnCurrentGame().NUmberOfTreeMonsters ; i++) {
             controller.getEnemyController().getTreecontroller().CreateTree();
         }
         camera.position.set(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f, 0);
         camera.update();
-        Table table = new Table();
-        stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         table.setFillParent(true);
-        table.center();
+        table.top().left().padTop(20).padLeft(20);
+        table.add(HpLabel);
+        table.row();
+        table.add(Time);
         stage.addActor(table);
     }
 
     @Override
     public void render(float v) {
-        App.ReturnCurrentGame().getTimer().IncreaseTime(v);
-        if(App.ReturnCurrentGame().getTimer().getTacnecalMonsterSpawn() > 3)
+        HpLabel.setText("Hp :  " + App.ReturnCurrentGame().getPlayer().getHp());
+        Time.setText("Time :  " + App.ReturnCurrentGame().getTimer().getTime());
+        /*if(App.ReturnCurrentGame().getPlayer().getHp() < 0)
         {
-            for(int i = 0;i < v / 10 ; i++) {
-                controller.getEnemyController().getTenteacontroller().CreateTentacleMonster();
-                App.ReturnCurrentGame().getTimer().setTacnecalMonsterSpawn(0);
-            }
-        }
-        if(App.ReturnCurrentGame().getTotalTime() / 4 < App.ReturnCurrentGame().getTimer().getTime()) {
-            if (App.ReturnCurrentGame().getTimer().getEyebatSpawn() > 10) {
-                for (int i = 0; i < (4 * App.ReturnCurrentGame().getTimer().getTime() - App.ReturnCurrentGame().getTotalTime() + 30) / 30; i++) {
-                    controller.getEnemyController().getEyecontroller().CreateEyeBatMonster();
-                }
-                App.ReturnCurrentGame().getTimer().setEyebatSpawn(0);
-            }
-        }
+            Gdx.app.exit();
+        }*/
         float heroX = controller.getPlayer().getPosX();
         float heroY = controller.getPlayer().getPosY();
         camera.position.set(heroX, heroY, 0);

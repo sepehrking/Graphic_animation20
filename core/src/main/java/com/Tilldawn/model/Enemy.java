@@ -12,6 +12,14 @@ public class Enemy {
     protected int Hp;
     protected CollsionREcatangle collisionREcatangle  = new CollsionREcatangle();
 
+    public CollsionREcatangle getCollisionREcatangle() {
+        return collisionREcatangle;
+    }
+
+    public void setCollisionREcatangle(CollsionREcatangle collisionREcatangle) {
+        this.collisionREcatangle = collisionREcatangle;
+    }
+
     public float getXPos() {
         return XPos;
     }

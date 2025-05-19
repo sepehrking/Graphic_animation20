@@ -22,6 +22,8 @@ public class EyeController {
 
     public void Update(EyeBat monster , float Delta)
     {
+        monster.getCollisionREcatangle().setX(monster.getXPos());
+        monster.getCollisionREcatangle().setY(monster.getYPos());
         monster.getEnemySprite().setPosition(monster.getXPos() , monster.getYPos());
         monster.getEnemySprite().draw(Main.getBatch());
         HandleWalkNearCharacter(monster , Delta);

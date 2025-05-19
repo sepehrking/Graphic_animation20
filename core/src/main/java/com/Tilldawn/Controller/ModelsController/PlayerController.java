@@ -2,9 +2,7 @@ package com.Tilldawn.Controller.ModelsController;
 
 import com.Tilldawn.Controller.GirdController;
 import com.Tilldawn.Main;
-import com.Tilldawn.model.App;
-import com.Tilldawn.model.Bullet;
-import com.Tilldawn.model.Player;
+import com.Tilldawn.model.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -31,10 +29,21 @@ public class PlayerController {
         return true;
     }
 
-    public void Update()
+    public void Update(float Delta)
     {
+        if(App.ReturnCurrentGame().getTimer().getLastTimeDamaged() > 1)
+        {
+            player.getPlayerSprite().setColor(1f , 1f , 1f , 1f);
+        }
+        else
+        {
+            player.getPlayerSprite().setColor(0.4f , 0.4f , 0.4f , 0.4f);
+        }
+        player.getCol().setX(player.getPosX());
+        player.getCol().setY(player.getPosY());
         player.getPlayerSprite().setPosition(player.getPosX() ,player.getPosY());
         player.getPlayerSprite().draw(Main.getBatch());
+        player.getWeopenC().updateWeopenTime(Delta);
         Texture weaopen = new Texture(Gdx.files.internal(App.ReturnCurrentGame().getWeopen().Addres));
         Sprite weaopenSprite = new Sprite(weaopen);
         weaopenSprite.setSize(weaopenSprite.getWidth() * 4  , weaopenSprite.getHeight() * 4);
@@ -42,14 +51,54 @@ public class PlayerController {
         weaopenSprite.draw(Main.getBatch());
         HandleWalking();
         HandleShooting();
+        CheckCollision(Delta);
+        HandleReload();
+        HandleGettingSeed();
+        player.getAbillityController().TIMEUPDATE(Delta);
     }
+
+
+    public void HandleGettingSeed()
+    {
+        for(int i = App.ReturnCurrentGame().getSeeds().size() - 1 ; i >= 0 ; i--)
+        {
+
+            Seed ourseed = App.ReturnCurrentGame().getSeeds().get(i);
+            Player player = App.ReturnCurrentGame().getPlayer();
+            if(ourseed.getCollision().IsCollide(App.ReturnCurrentGame().getPlayer().getCol()))
+            {
+                boolean ISLeveLUP = player.setXp(player.getXp() + 10);
+                App.ReturnCurrentGame().getSeeds().remove(i);
+                if(ISLeveLUP)
+                {
+                    App.ReturnCurrentGame().setISLEVELUP(true);
+                }
+            }
+        }
+    }
+
+
+    public void HandleReload()
+    {
+        if(Gdx.input.isKeyPressed(Input.Keys.R)) {
+            player.getWeopenC().setAmoo(player.getWeopenC().getMAXAMO());
+            player.getWeopenC().setTimeinreload(0);
+        }
+    }
+
 
     public void HandleShooting()
     {
-        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) || Gdx.input.isKeyPressed(Input.Keys.SPACE))
         {
-            Bullet newbullet = new Bullet(App.ReturnCurrentGame().getPlayer().getPosX() , App.ReturnCurrentGame().getPlayer().getPosY());
-            App.ReturnCurrentGame().getBullets().add(newbullet);
+            if(player.getWeopenC().getTimeinreload() > App.ReturnCurrentGame().getWeopen().TimeREload) {
+                if(player.getWeopenC().getAmoo() > 0 && player.getWeopenC().getTimeinShotting() > 0.5) {
+                    Bullet newbullet = new Bullet(App.ReturnCurrentGame().getPlayer().getPosX(), App.ReturnCurrentGame().getPlayer().getPosY());
+                    App.ReturnCurrentGame().getBullets().add(newbullet);
+                    player.getWeopenC().setAmoo(player.getWeopenC().getAmoo() - 1);
+                    player.getWeopenC().setTimeinShotting(0);
+                }
+            }
         }
     }
 
@@ -86,6 +135,22 @@ public class PlayerController {
             if(!CheckIfInsideGird())
             {
                 player.setPosX(player.getPosX() - player.getSpeed());
+            }
+        }
+    }
+
+    public void CheckCollision(float Delta)
+    {
+        if(App.ReturnCurrentGame().getTimer().getLastTimeDamaged() > 1) {
+            boolean ok = false;
+            for (Enemy enemy : App.ReturnCurrentGame().getEnemies()) {
+                if (enemy.getCollisionREcatangle().IsCollide(App.ReturnCurrentGame().getPlayer().getCol())) {
+                    ok = true;
+                }
+            }
+            if (ok) {
+                App.ReturnCurrentGame().getTimer().setLastTimeDamaged(0);
+                App.ReturnCurrentGame().getPlayer().setHp(App.ReturnCurrentGame().getPlayer().getHp() - Delta * 5);
             }
         }
     }

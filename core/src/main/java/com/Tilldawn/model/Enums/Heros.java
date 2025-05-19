@@ -12,7 +12,7 @@ public enum Heros {
     Lilith(new ArrayList<>(Arrays.asList("Lilith/Idle_0 #8333.png" , "Lilith/Idle_1 #8363.png" , "Lilith/Idle_2 #8822.png" , "Lilith/Idle_3 #8460.png" , "Lilith/Idle_4 #8321.png" , "Lilith/Idle_5 #8310.png")) , 5 ,  3),
     Scarlet(new ArrayList<>(Arrays.asList("Scarlet/Idle_0.png" , "Scarlet/Idle_1 #8354.png" , "Scarlet/Idle_2 #8813.png" , "Scarlet/Idle_3.png" , "Scarlet/Idle_4.png" , "Scarlet/Idle_5.png")) , 2 , 10);
     public final ArrayList<String> AnimationAdreeses;
-    public final int Hp;
+    public final float Hp;
     public final int Speed;
 
     Heros(ArrayList<String> animationAdreeses, int hp, int speed) {
