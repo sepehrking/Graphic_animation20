@@ -2,6 +2,7 @@ package com.Tilldawn.View;
 
 import com.Tilldawn.Controller.SettingController;
 import com.Tilldawn.Main;
+import com.Tilldawn.model.App;
 import com.Tilldawn.model.GameAssets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -17,13 +18,20 @@ public class SettingMenu implements Screen {
     private SelectBox<String> SelectMusic;
     private CheckBox SfxChecker;
     private CheckBox AutoReload;
+    private TextButton EXIT;
+
+    public TextButton getEXIT() {
+        return EXIT;
+    }
 
     public SettingMenu(SettingController controller) {
         VoloumSlider = new Slider(0f , 1f , 0.01f , false , GameAssets.getInstance().getSkin());
         SelectMusic = new SelectBox<>(GameAssets.getInstance().getSkin());
         SfxChecker = new CheckBox("Enable SFX" , GameAssets.getInstance().getSkin());
         AutoReload = new CheckBox("Auto Reload" , GameAssets.getInstance().getSkin());
+        EXIT = new TextButton("Back to MainMenu", GameAssets.getInstance().getSkin());
         this.controller = controller;
+        controller.setSettingMenu(this);
     }
 
     public CheckBox getAutoReload() {
@@ -44,11 +52,20 @@ public class SettingMenu implements Screen {
 
     @Override
     public void show() {
-
+        SfxChecker.setChecked(App.ReturnCurrentGame().getPregame().getSFX());
+        AutoReload.setChecked(App.ReturnCurrentGame().getPregame().isAutoReload());
+        VoloumSlider.setValue(App.ReturnCurrentGame().getPregame().getVoulume());
         Array<String> musics = GameAssets.getInstance().GetMusics();
         SelectMusic.setItems(musics);
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
+
+        Table ExitTable = new Table();
+        ExitTable.setFillParent(true);
+        ExitTable.top().left();
+        ExitTable.add(EXIT);
+        stage.addActor(ExitTable);
+
         Table table = new Table();
         table.setFillParent(true);
         table.center();
@@ -75,6 +92,7 @@ public class SettingMenu implements Screen {
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
+        controller.ApplyScrren();
     }
 
     @Override

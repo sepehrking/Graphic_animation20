@@ -17,10 +17,10 @@ public class LoginMenu implements Screen {
     private TextField usernameField;
     private TextField passwordField;
     private TextField sequrityFeild;
-
     private TextButton loginButton;
     private TextButton ForgetButton;
     private Label errorLabel;
+    private TextButton exitButton;
 
     public LoginMenu(LoginController controller) {
         usernameField = new TextField("Username" , GameAssets.getInstance().getSkin());
@@ -28,7 +28,10 @@ public class LoginMenu implements Screen {
         sequrityFeild = new TextField("Security" , GameAssets.getInstance().getSkin());
         ForgetButton = new TextButton("Forget Pass", GameAssets.getInstance().getSkin());
         loginButton = new TextButton("Login", GameAssets.getInstance().getSkin());
+        errorLabel = new Label("", GameAssets.getInstance().getSkin());
+        exitButton = new TextButton("Exit", GameAssets.getInstance().getSkin());
         this.controller = controller;
+        controller.setLoginMenu(this);
     }
 
     public Label getErrorLabel() {
@@ -55,15 +58,23 @@ public class LoginMenu implements Screen {
         return passwordField;
     }
 
+    public TextButton getExitButton() {
+        return exitButton;
+    }
 
     @Override
     public void show() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
+        Table ExitTable = new Table();
+        ExitTable.setFillParent(true);
+        ExitTable.top().left();
+        ExitTable.add(exitButton);
+        stage.addActor(ExitTable);
+
         Table table = new Table();
         table.setFillParent(true);
-
         table.add(new Label("LoginMenu", GameAssets.getInstance().getSkin()));
         table.row().padTop(30);
         table.add(usernameField).width(300);
@@ -73,6 +84,7 @@ public class LoginMenu implements Screen {
         table.add(sequrityFeild).width(300);
         table.row().padTop(10);
         table.add(ForgetButton).width(100);
+
         table.add(loginButton).width(100);
         table.row().padTop(10);
         table.add(errorLabel).width(500);
@@ -86,6 +98,7 @@ public class LoginMenu implements Screen {
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
+        controller.CheckScreen();
     }
 
     @Override

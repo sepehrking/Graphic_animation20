@@ -27,6 +27,11 @@ public class MainMenu implements Screen {
     private TextButton Logout;
     private Image AvatarImage;
     private TextButton StartGame;
+
+    public TextButton getLogout() {
+        return Logout;
+    }
+
     public MainMenu(MainMenuController controller) {
         Texture texture = new Texture(Gdx.files.internal(App.ReturnCurrentUser().getAvatar().Path_Avatars));
         AvatarImage = new Image(texture);

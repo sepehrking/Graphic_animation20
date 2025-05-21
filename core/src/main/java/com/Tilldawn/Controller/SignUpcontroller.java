@@ -3,6 +3,7 @@ package com.Tilldawn.Controller;
 import com.Tilldawn.Main;
 import com.Tilldawn.View.MainMenu;
 import com.Tilldawn.View.SignupMenu;
+import com.Tilldawn.View.StartMenu;
 import com.Tilldawn.model.App;
 import com.Tilldawn.model.Enums.Avatars;
 import com.Tilldawn.model.Game;
@@ -33,6 +34,10 @@ public class SignUpcontroller {
     }
     public void CheckScreen()
     {
+        if(menu.getExit().isChecked())
+        {
+            Main.getMain().setScreen(new StartMenu(new StartMenuController()));
+        }
         if(menu.getConfirmButton().isChecked())
         {
             if(menu.getUsernameField().getText().equals(""))

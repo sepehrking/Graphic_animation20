@@ -4,9 +4,14 @@ import com.Tilldawn.Controller.ModelsController.BulletController;
 import com.Tilldawn.Controller.ModelsController.EnemyController;
 import com.Tilldawn.Controller.ModelsController.PlayerController;
 import com.Tilldawn.Controller.ModelsController.SeedController;
+import com.Tilldawn.Main;
+import com.Tilldawn.View.DestroyedAnimation;
+import com.Tilldawn.View.FinishMenu;
 import com.Tilldawn.View.GameMenu;
 import com.Tilldawn.model.*;
 import com.Tilldawn.model.Enums.Abilites;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class GameMenuController {
     private Player player;
@@ -39,11 +44,17 @@ public class GameMenuController {
         return player;
     }
 
-    public void Update(float Delta)
+    public void Update(float Delta , Camera camera)
     {
         if(gameMenu.getTable().isVisible()) {
+            gameMenu.getHpLabel().setText("Hp :  " + App.ReturnCurrentGame().getPlayer().getHp());
+            String OKTime =  String.format("%.1f" , App.ReturnCurrentGame().getTimer().getTime());
+            gameMenu.getTime().setText("Time :  " + OKTime);
+            gameMenu.getKillsLabel().setText(App.ReturnCurrentGame().getPlayer().getKills());
+            gameMenu.getAmmoLable().setText("Ammo :  " + App.ReturnCurrentGame().getPlayer().getWeopenC().getAmoo());
+            gameMenu.getLevelLable().setText("Level :  " + App.ReturnCurrentGame().getPlayer().getLevel());
             girdController.update();
-            playerController.Update(Delta);
+            playerController.Update(Delta , camera);
             for (Enemy enemy : App.ReturnCurrentGame().getEnemies()) {
                 enemyController.Update(enemy, Delta);
             }
@@ -63,6 +74,12 @@ public class GameMenuController {
                 gameMenu.getThirdAbility().setText(thirdAbility);
                 App.ReturnCurrentGame().setISLEVELUP(false);
             }
+            if(gameMenu.getPauseGame().isChecked()) {
+                gameMenu.getPauseMenu().setVisible(true);
+                gameMenu.getTable().setVisible(false);
+                gameMenu.getChooseAbilityTable().setVisible(false);
+                gameMenu.getPauseGame().setChecked(false);
+            }
             App.ReturnCurrentGame().getTimer().IncreaseTime(Delta);
             if (App.ReturnCurrentGame().getTimer().getTacnecalMonsterSpawn() > 3) {
                 for (int i = 0; i < Delta / 10; i++) {
@@ -78,7 +95,10 @@ public class GameMenuController {
                     App.ReturnCurrentGame().getTimer().setEyebatSpawn(0);
                 }
             }
+            ApplyExplosion(Delta);
+            CheckEndGame();
         }
+
         if(gameMenu.getChooseAbilityTable().isVisible()) {
             CharSequence Ability = null;
             if(gameMenu.getFirstAbility().isChecked())
@@ -121,5 +141,54 @@ public class GameMenuController {
             gameMenu.getSecondAbility().setChecked(false);
             gameMenu.getFirstAbility().setChecked(false);
         }
+
+        if(gameMenu.getPauseMenu().isVisible()) {
+            if(gameMenu.getResume().isChecked()) {
+                gameMenu.getPauseMenu().setVisible(false);
+                gameMenu.getTable().setVisible(true);
+                gameMenu.getChooseAbilityTable().setVisible(false);
+                gameMenu.getResume().setChecked(false);
+            }
+        }
     }
+
+    public void ApplyExplosion(float delta)
+    {
+        for(int i = App.ReturnCurrentGame().getDestroyedAnimations().size() - 1 ; i >= 0 ; i--)
+        {
+            DestroyedAnimation d = App.ReturnCurrentGame().getDestroyedAnimations().get(i);
+            d.getSprite().setPosition(d.getX(), d.getY());
+            d.getSprite().setRegion(d.getAnimation().getKeyFrame(d.getTime()));
+
+            if(!d.getAnimation().isAnimationFinished(d.getTime()))
+            {
+                d.setTime(d.getTime() + delta);
+            }
+            else
+            {
+                //d.setTime(0);
+                 App.ReturnCurrentGame().getDestroyedAnimations().remove(i);
+            }
+            d.getSprite().draw(Main.getBatch());
+            d.getAnimation().setPlayMode(Animation.PlayMode.LOOP);
+        }
+    }
+
+    public void CheckEndGame()
+    {
+        boolean gameOver = false;
+        if(App.ReturnCurrentGame().getPlayer().getHp() < 0)
+        {
+            gameOver = true;
+        }
+        if(App.ReturnCurrentGame().getTotalTime() < App.ReturnCurrentGame().getTimer().getTime())
+        {
+            gameOver = true;
+        }
+        if(gameOver)
+        {
+            Main.getMain().setScreen(new FinishMenu(new FinishMenuController()));
+        }
+    }
+
 }

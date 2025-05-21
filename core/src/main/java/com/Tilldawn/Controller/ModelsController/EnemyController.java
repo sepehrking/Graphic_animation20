@@ -1,10 +1,10 @@
 package com.Tilldawn.Controller.ModelsController;
 
-import com.Tilldawn.model.Enemy;
-import com.Tilldawn.model.EyeBat;
-import com.Tilldawn.model.TREE;
-import com.Tilldawn.model.TentacleMonster;
+import com.Tilldawn.Main;
+import com.Tilldawn.View.DestroyedAnimation;
+import com.Tilldawn.model.*;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class EnemyController {
     private TreeController treecontroller = new TreeController();
@@ -40,4 +40,5 @@ public class EnemyController {
             eyecontroller.Update(ourmonster , delta);
         }
     }
+
 }

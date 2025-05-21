@@ -25,6 +25,34 @@ public class GameMenu implements Screen {
     private TextButton FirstAbility;
     private TextButton SecondAbility;
     private TextButton ThirdAbility;
+    private TextButton PauseGame;
+    private TextButton Resume;
+    private TextButton GiveUP;
+    private Label KillsLabel;
+    private Label AmmoLable;
+    private Label LevelLable;
+
+    public Label getAmmoLable() {
+        return AmmoLable;
+    }
+
+    public Label getLevelLable() {
+        return LevelLable;
+    }
+
+    public Label getKillsLabel() {
+        return KillsLabel;
+    }
+
+    public Label getHpLabel() {
+        return HpLabel;
+    }
+
+
+
+    public Label getTime() {
+        return Time;
+    }
 
     public OrthographicCamera getCamera() {
         return camera;
@@ -54,6 +82,18 @@ public class GameMenu implements Screen {
         return ThirdAbility;
     }
 
+    public TextButton getPauseGame() {
+        return PauseGame;
+    }
+
+    public TextButton getGiveUP() {
+        return GiveUP;
+    }
+
+    public TextButton getResume() {
+        return Resume;
+    }
+
     public GameMenu(GameMenuController controller) {
         this.controller = controller;
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -63,6 +103,12 @@ public class GameMenu implements Screen {
         SecondAbility = new TextButton("Second Ability", GameAssets.getInstance().getSkin());
         ThirdAbility = new TextButton("Third Ability", GameAssets.getInstance().getSkin());
         controller.setGameMenu(this);
+        PauseGame = new TextButton("Pause", GameAssets.getInstance().getSkin());
+        GiveUP = new TextButton("Give Up", GameAssets.getInstance().getSkin());
+        Resume = new TextButton("Resume", GameAssets.getInstance().getSkin());
+        KillsLabel = new Label("Kills :  0", GameAssets.getInstance().getSkin());
+        LevelLable = new Label("Level :  1", GameAssets.getInstance().getSkin());
+        AmmoLable = new Label("Ammo : " + App.ReturnCurrentGame().getWeopen().AmmoMAx, GameAssets.getInstance().getSkin());
     }
 
     @Override
@@ -89,16 +135,34 @@ public class GameMenu implements Screen {
         Gdx.input.setInputProcessor(stage);
         table.setFillParent(true);
         table.top().left().padTop(20).padLeft(20);
+        table.add(PauseGame).width(100);
+        table.padTop(10);
+        table.row();
         table.add(HpLabel);
         table.row();
+        table.padTop(10);
         table.add(Time);
+        table.row();
+        table.add(KillsLabel);
+        table.row();
+        table.add(LevelLable);
+        table.row();
+        table.add(AmmoLable);
         stage.addActor(table);
+
+        Table CenterTable = new Table();
+        CenterTable.center();
+        CenterTable.setFillParent(true);
+        CenterTable.add(Resume).width(300);
+        CenterTable.row().padTop(10);
+        CenterTable.add(GiveUP).width(300);
+        PauseMenu.add(CenterTable);
+        stage.addActor(PauseMenu);
     }
 
     @Override
     public void render(float v) {
-        HpLabel.setText("Hp :  " + App.ReturnCurrentGame().getPlayer().getHp());
-        Time.setText("Time :  " + App.ReturnCurrentGame().getTimer().getTime());
+
         /*if(App.ReturnCurrentGame().getPlayer().getHp() < 0)
         {
             Gdx.app.exit();
@@ -110,7 +174,7 @@ public class GameMenu implements Screen {
         ScreenUtils.clear(0 , 0 , 0 , 1);
         Main.getBatch().setProjectionMatrix(camera.combined);
         Main.getBatch().begin();
-        controller.Update(v);
+        controller.Update(v , camera);
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();

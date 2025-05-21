@@ -9,7 +9,16 @@ public class User {
     private Avatars avatar;
     private int point = 0;
     private int Kill = 0;
-    private int MostTimeAlive;
+    private int MostTimeAlive = 0;
+
+    public int getKill() {
+        return Kill;
+    }
+
+    public int getMostTimeAlive() {
+        return MostTimeAlive;
+    }
+
     public User(String useranme, String password , String sequrityQuestion) {
         Useranme = useranme;
         Password = password;

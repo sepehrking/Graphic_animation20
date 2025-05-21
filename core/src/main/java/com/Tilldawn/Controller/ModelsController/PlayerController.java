@@ -5,8 +5,11 @@ import com.Tilldawn.Main;
 import com.Tilldawn.model.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector3;
 
 public class PlayerController {
     private Player player;
@@ -29,7 +32,33 @@ public class PlayerController {
         return true;
     }
 
-    public void Update(float Delta)
+    public void AutoAim(Camera camera) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
+            Enemy nearest = null;
+            float minDist = Float.MAX_VALUE;
+
+            for (Enemy enemy : App.ReturnCurrentGame().getEnemies()) {
+                float dist = App.Difreence(
+                    player.getPosX(), player.getPosY(),
+                    enemy.getXPos(), enemy.getYPos()
+                );
+
+                if (nearest == null || dist < minDist) {
+                    nearest = enemy;
+                    minDist = dist;
+                }
+            }
+
+            if (nearest != null) {
+                Vector3 screenCoords = camera.project(new Vector3(nearest.getXPos(),nearest.getYPos(), 0));
+                int cursorX = Math.round(screenCoords.x);
+                int cursorY = Gdx.graphics.getHeight() - Math.round(screenCoords.y);
+                Gdx.input.setCursorPosition(cursorX, cursorY);
+            }
+        }
+    }
+
+    public void Update(float Delta , Camera camera)
     {
         if(App.ReturnCurrentGame().getTimer().getLastTimeDamaged() > 1)
         {
@@ -54,7 +83,9 @@ public class PlayerController {
         CheckCollision(Delta);
         HandleReload();
         HandleGettingSeed();
+        AutoAim(camera);
         player.getAbillityController().TIMEUPDATE(Delta);
+        idleAnimation(Delta);
     }
 
 
@@ -94,6 +125,11 @@ public class PlayerController {
             if(player.getWeopenC().getTimeinreload() > App.ReturnCurrentGame().getWeopen().TimeREload) {
                 if(player.getWeopenC().getAmoo() > 0 && player.getWeopenC().getTimeinShotting() > 0.5) {
                     Bullet newbullet = new Bullet(App.ReturnCurrentGame().getPlayer().getPosX(), App.ReturnCurrentGame().getPlayer().getPosY());
+                    float XD = Gdx.input.getX() - Gdx.graphics.getWidth() / 2f;
+                    float YD = Gdx.input.getY() - Gdx.graphics.getHeight() / 2f;
+                    float NORM = (XD * XD) + (YD * YD);
+                    newbullet.setXd(XD / NORM);
+                    newbullet.setYd(YD / NORM);
                     App.ReturnCurrentGame().getBullets().add(newbullet);
                     player.getWeopenC().setAmoo(player.getWeopenC().getAmoo() - 1);
                     player.getWeopenC().setTimeinShotting(0);
@@ -153,6 +189,21 @@ public class PlayerController {
                 App.ReturnCurrentGame().getPlayer().setHp(App.ReturnCurrentGame().getPlayer().getHp() - Delta * 5);
             }
         }
+    }
+
+    public void idleAnimation(float Delta){
+        Animation<Texture> animation = GameAssets.getInstance().getCharacter1_idle_animation();
+
+        player.getPlayerSprite().setRegion(animation.getKeyFrame(player.getTime()));
+
+        if (!animation.isAnimationFinished(player.getTime())) {
+            player.setTime(player.getTime() + Delta);
+        }
+        else {
+            player.setTime(0);
+        }
+
+        animation.setPlayMode(Animation.PlayMode.LOOP);
     }
 
 }

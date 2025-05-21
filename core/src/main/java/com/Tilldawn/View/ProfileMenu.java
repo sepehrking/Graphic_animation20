@@ -6,10 +6,7 @@ import com.Tilldawn.model.GameAssets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.ArrayList;
@@ -25,6 +22,8 @@ public class ProfileMenu implements Screen {
     private TextButton ApplyChangePassword;
     private TextButton BackButton;
     private TextButton DeleteAccount;
+    private Label UsernameLogMassage;
+    private Label PasswordLogMassage;
 
     public ProfileMenu(ProfileMenuController controller) {
         this.controller = controller;
@@ -36,9 +35,17 @@ public class ProfileMenu implements Screen {
         DeleteAccount = new TextButton("Delete Account", GameAssets.getInstance().getSkin());
         Avatarbuttons = GameAssets.getInstance().getbuttons();
         controller.setProfileMenu(this);
+        UsernameLogMassage = new Label("", GameAssets.getInstance().getSkin());
+        PasswordLogMassage = new Label("", GameAssets.getInstance().getSkin());
     }
 
+    public Label getUsernameLogMassage() {
+        return UsernameLogMassage;
+    }
 
+    public Label getPasswordLogMassage() {
+        return PasswordLogMassage;
+    }
 
     public ProfileMenuController getController() {
         return controller;
@@ -82,10 +89,14 @@ public class ProfileMenu implements Screen {
         LeftTable.add(ChangUsername).width(300);
         LeftTable.padLeft(10);
         LeftTable.add(ApplyChangeUsername);
+        LeftTable.padLeft(10);
+        LeftTable.add(UsernameLogMassage);
         LeftTable.row().padTop(20);
         LeftTable.add(ChangePassword).width(300);
         LeftTable.padLeft(10);
         LeftTable.add(ApplyChangePassword);
+        LeftTable.padLeft(10);
+        LeftTable.add(PasswordLogMassage);
         LeftTable.row().padTop(20);
         for(int i = 0;i < Avatarbuttons.size();i++) {
 

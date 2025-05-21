@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameAssets {
     private static GameAssets instance;
@@ -83,4 +85,42 @@ public class GameAssets {
         }
         return musics;
     }
+
+    public Array<Float> GETHP()
+    {
+        Array<Float> hp = new Array<>();
+        for(Heros hero : Heros.values())
+        {
+            hp.add(hero.Hp);
+        }
+        return hp;
+    }
+
+    public Array<Integer> getspeeds()
+    {
+        Array<Integer> speeds = new Array<>();
+        for(Heros hero : Heros.values())
+        {
+            speeds.add(hero.Speed);
+        }
+        return speeds;
+    }
+
+    public List<User> GETUSERS()
+    {
+        List<User> users = new ArrayList<>();
+        for(User user : App.Users)
+        {
+            users.add(user);
+        }
+        return users;
+    }
+
+    public Animation<Texture> getCharacter1_idle_animation() {
+        Animation<Texture> Ret = new Animation<>(0.1f , new Texture(App.ReturnCurrentGame().getHero().AnimationAdreeses.get(0)) , new Texture(App.ReturnCurrentGame().getHero().AnimationAdreeses.get(1))
+        , new Texture(App.ReturnCurrentGame().getHero().AnimationAdreeses.get(2)) , new Texture(App.ReturnCurrentGame().getHero().AnimationAdreeses.get(3)) ,
+            new Texture(App.ReturnCurrentGame().getHero().AnimationAdreeses.get(4)) , new Texture(App.ReturnCurrentGame().getHero().AnimationAdreeses.get(5)));
+        return Ret;
+    }
+
 }

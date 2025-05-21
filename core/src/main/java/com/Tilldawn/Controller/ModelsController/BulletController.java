@@ -1,6 +1,7 @@
 package com.Tilldawn.Controller.ModelsController;
 
 import com.Tilldawn.Main;
+import com.Tilldawn.View.DestroyedAnimation;
 import com.Tilldawn.model.*;
 import com.badlogic.gdx.Gdx;
 
@@ -16,8 +17,8 @@ public class BulletController {
 
     public void HandlePosition(Bullet bullet , Float Delta)
     {
-        bullet.setPosx(bullet.getPosx() + bullet.getXd() * Delta * 100f) ;
-        bullet.setPosy(bullet.getPosy() + bullet.getYd() * Delta * 100f) ;
+        bullet.setPosx(bullet.getPosx() + bullet.getXd() * Delta * 100000f) ;
+        bullet.setPosy(bullet.getPosy() - bullet.getYd() * Delta * 100000f) ;
         CollideEnemies();
     }
 
@@ -37,7 +38,10 @@ public class BulletController {
                             newSeed.getCollision().setX(newSeed.getXpos());
                             newSeed.getCollision().setY(newSeed.getYpos());
                             App.ReturnCurrentGame().getSeeds().add(newSeed);
+                            DestroyedAnimation newd = new DestroyedAnimation(App.ReturnCurrentGame().getEnemies().get(j).getXPos() , App.ReturnCurrentGame().getEnemies().get(j).getYPos());
+                            App.ReturnCurrentGame().getDestroyedAnimations().add(newd);
                             App.ReturnCurrentGame().getEnemies().remove(j);
+                            App.ReturnCurrentGame().getPlayer().setKills(App.ReturnCurrentGame().getPlayer().getKills() + 1);
                         }
                         //App.ReturnCurrentGame().getBullets().remove(i);
                         break;

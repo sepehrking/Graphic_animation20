@@ -23,6 +23,15 @@ public class Player {
     private int Xp = 0;
     private int Level = 0;
     Weopen weopenC;
+    private int Kills = 0 ;
+
+    public int getKills() {
+        return Kills;
+    }
+
+    public void setKills(int kills) {
+        Kills = kills;
+    }
 
     public AbillityController getAbillityController() {
         return abillityController;

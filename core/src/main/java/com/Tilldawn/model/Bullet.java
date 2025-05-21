@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Bullet {
-    int xd = 1 , yd = 1;
+    float xd = 1 , yd = 1;
     private float Posx;
     private float Posy;
     private CollsionREcatangle collision = new CollsionREcatangle();
@@ -26,11 +26,11 @@ public class Bullet {
         collision.setHeight(sprite.getHeight());
     }
 
-    public int getXd() {
+    public float getXd() {
         return xd;
     }
 
-    public void setXd(int xd) {
+    public void setXd(float xd) {
         this.xd = xd;
     }
 
@@ -58,11 +58,11 @@ public class Bullet {
         Posy = posy;
     }
 
-    public int getYd() {
+    public float getYd() {
         return yd;
     }
 
-    public void setYd(int yd) {
+    public void setYd(float yd) {
         this.yd = yd;
     }
 

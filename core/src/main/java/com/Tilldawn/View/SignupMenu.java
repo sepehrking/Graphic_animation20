@@ -22,6 +22,11 @@ public class SignupMenu implements Screen {
     private TextField SequrityFeild;
     private TextButton ConfirmButton;
     private Table table;
+    private TextButton Exit;
+
+    public TextButton getExit() {
+        return Exit;
+    }
 
     public SignupMenu(SignUpcontroller controller) {
         table = new Table();
@@ -32,12 +37,19 @@ public class SignupMenu implements Screen {
         SequrityFeild = new TextField("" , GameAssets.getInstance().getSkin());
         this.controller = controller;
         controller.SetMenu(this);
+        Exit = new TextButton("Exit" , GameAssets.getInstance().getSkin());
     }
 
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+        Table ExitTable = new Table();
+        ExitTable.setFillParent(true);
+        ExitTable.top().left();
+        ExitTable.add(Exit);
+        stage.addActor(ExitTable);
+
 
         table.center();
         table.setFillParent(true);
@@ -47,13 +59,13 @@ public class SignupMenu implements Screen {
         table.row().padTop(10);
         table.add(PasswordField).width(300);
         table.row().padTop(10);
+        table.padRight(500);
         table.add(new Label("What is your favorite Color" , GameAssets.getInstance().getSkin()));
         table.add(SequrityFeild).width(300);
         table.row().padTop(10);
-        table.add(ConfirmButton).width(50);
+        table.add(ConfirmButton).width(300);
         table.row().padTop(10);
         table.add(ErrorMassage).width(500);
-
         this.stage.addActor(table);
     }
 
