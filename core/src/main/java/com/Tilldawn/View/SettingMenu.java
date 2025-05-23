@@ -20,6 +20,8 @@ public class SettingMenu implements Screen {
     private CheckBox AutoReload;
     private TextButton EXIT;
 
+
+
     public TextButton getEXIT() {
         return EXIT;
     }

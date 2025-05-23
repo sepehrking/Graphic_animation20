@@ -5,6 +5,7 @@ import com.Tilldawn.Controller.StartMenuController;
 import com.Tilldawn.View.LoginMenu;
 import com.Tilldawn.View.SignupMenu;
 import com.Tilldawn.View.StartMenu;
+import com.Tilldawn.model.AudioManager;
 import com.Tilldawn.model.GameAssets;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
@@ -24,6 +25,7 @@ public class Main extends Game {
     public void create() {
         main = this;
         batch = new SpriteBatch();
+       // AudioManager.PlayedMusic.play();
         getMain().setScreen(new StartMenu(new StartMenuController()));
     }
 

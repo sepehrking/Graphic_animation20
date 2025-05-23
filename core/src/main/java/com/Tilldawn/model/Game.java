@@ -8,10 +8,12 @@ import java.util.ArrayList;
 
 public class Game {
     private PREGAME pregame = new PREGAME();
+    private KeyboradController keyborad = new KeyboradController();
     private Player player;
     public final int NUmberOfTreeMonsters = 40;
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Bullet> Bullets = new ArrayList<>();
+    private ArrayList<Bullet> EnemyBullets = new ArrayList<>();
     private ArrayList<Seed> Seeds = new ArrayList<>();
     private Heros hero = Heros.Shana;
     private int TotalTime = 120 ;
@@ -19,6 +21,14 @@ public class Game {
     private Timer timer = new Timer();
     private boolean ISLEVELUP = false;
     private ArrayList<DestroyedAnimation> destroyedAnimations = new ArrayList<>();
+
+    public KeyboradController getKeyborad() {
+        return keyborad;
+    }
+
+    public ArrayList<Bullet> getEnemyBullets() {
+        return EnemyBullets;
+    }
 
     public ArrayList<DestroyedAnimation> getDestroyedAnimations() {
         return destroyedAnimations;

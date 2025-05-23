@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.util.ArrayList;
+
 public class GameMenu implements Screen {
     private OrthographicCamera camera;
     private GameMenuController controller;
@@ -156,7 +158,17 @@ public class GameMenu implements Screen {
         CenterTable.add(Resume).width(300);
         CenterTable.row().padTop(10);
         CenterTable.add(GiveUP).width(300);
-        PauseMenu.add(CenterTable);
+
+        Table CheatcodesTable = new Table();
+        CheatcodesTable.left();
+        CheatcodesTable.setFillParent(true);
+        ArrayList<String> Cheat = GameAssets.getInstance().CheatCodes();
+        for(String C : Cheat) {
+            CheatcodesTable.add(new Label(C , GameAssets.getInstance().getSkin()));
+            CheatcodesTable.row();
+        }
+        PauseMenu.addActor(CheatcodesTable);
+        PauseMenu.addActor(CenterTable);
         stage.addActor(PauseMenu);
     }
 

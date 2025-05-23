@@ -19,6 +19,14 @@ public class User {
         return MostTimeAlive;
     }
 
+    public void setKill(int kill) {
+        Kill = kill;
+    }
+
+    public void setMostTimeAlive(int mostTimeAlive) {
+        MostTimeAlive = mostTimeAlive;
+    }
+
     public User(String useranme, String password , String sequrityQuestion) {
         Useranme = useranme;
         Password = password;

@@ -33,6 +33,14 @@ public class App {
         return Users.get(UserLoginId);
     }
 
+    public static void UpdateGame()
+    {
+        User ouruser = Users.get(UserLoginId);
+        ouruser.setPoint(ouruser.getPoint() +  (int) (App.ReturnCurrentGame().getPlayer().getKills() * App.ReturnCurrentGame().getTimer().getTime()));
+        ouruser.setKill(ouruser.getKill() + App.ReturnCurrentGame().getPlayer().getKills());
+        ouruser.setMostTimeAlive(Math.max(ouruser.getMostTimeAlive() , (int)App.ReturnCurrentGame().getTimer().getTime()));
+    }
+
     public static float Difreence(float X1 , float Y1 , float X2 , float Y2)
     {
         float ans = 0;

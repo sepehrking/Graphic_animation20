@@ -1,11 +1,14 @@
 package com.Tilldawn.View;
 
 import com.Tilldawn.Main;
+import com.Tilldawn.model.App;
 import com.Tilldawn.model.GameAssets;
 import com.Tilldawn.model.User;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -72,11 +75,31 @@ public class ScoreBoardMenu implements Screen {
         }
         int limit = Math.min(10, sortedUsers.size());
         for (int i = 0; i < limit; i++) {
+            Color GOLD   = new Color(1f, 0.84f, 0f, 1f);     // RGB for Gold
+            Color SILVER = new Color(0.75f, 0.75f, 0.75f, 1f); // RGB for Silver
+            Color BRONZE = new Color(0.8f, 0.5f, 0.2f, 1f);
+            Color color = new Color(1f , 1f  , 1f , 1f);
+            if(i == 0)
+            {
+                color = GOLD;
+            }
+            if(i == 1)
+            {
+                color = SILVER;
+            }
+            if(i == 2)
+            {
+                color = BRONZE;
+            }
             User user = sortedUsers.get(i);
-            userTable.add(new Label(user.getUseranme() , GameAssets.getInstance().getSkin())).left();
-            userTable.add(new Label(String.valueOf(user.getKill()) , GameAssets.getInstance().getSkin())).left();
-            userTable.add(new Label(String.valueOf(user.getPoint()) ,GameAssets.getInstance().getSkin()));
-            userTable.add(new Label(String.valueOf(user.getMostTimeAlive()) , GameAssets.getInstance().getSkin())).left();
+            userTable.add(new Label(user.getUseranme() , new Label.LabelStyle(new BitmapFont(), color))).left();
+            userTable.add(new Label(String.valueOf(user.getKill()) , new Label.LabelStyle(new BitmapFont() , color))).left();
+            userTable.add(new Label(String.valueOf(user.getPoint()) ,new Label.LabelStyle(new BitmapFont(), color)));
+            userTable.add(new Label(String.valueOf(user.getMostTimeAlive()) , new Label.LabelStyle(new BitmapFont(), color))).left();
+            if(user == App.ReturnCurrentUser())
+            {
+                userTable.add(new Label("<------------" , new Label.LabelStyle(new BitmapFont(), color))).left();
+            }
             userTable.row();
         }
     }

@@ -2,6 +2,7 @@ package com.Tilldawn.Controller.ModelsController;
 
 import com.Tilldawn.Main;
 import com.Tilldawn.model.App;
+import com.Tilldawn.model.Bullet;
 import com.Tilldawn.model.EyeBat;
 import com.Tilldawn.model.TentacleMonster;
 import com.badlogic.gdx.Gdx;
@@ -27,6 +28,7 @@ public class EyeController {
         monster.getEnemySprite().setPosition(monster.getXPos() , monster.getYPos());
         monster.getEnemySprite().draw(Main.getBatch());
         HandleWalkNearCharacter(monster , Delta);
+        HandleShooting(monster , Delta);
     }
 
 
@@ -45,5 +47,21 @@ public class EyeController {
         }
         monster.setXPos(monster.getXPos() + V * Delta * 100f);
         monster.setYPos(monster.getYPos() + H * Delta * 100f);
+    }
+
+    public void HandleShooting(EyeBat monster , float Delta)
+    {
+        monster.setShootingTime(monster.getShootingTime() + Delta);
+        if(monster.getShootingTime() > 6)
+        {
+            Bullet newbullet = new Bullet(monster.getXPos() , monster.getYPos());
+            float XD = App.ReturnCurrentGame().getPlayer().getPosX() - monster.getXPos();
+            float YD = App.ReturnCurrentGame().getPlayer().getPosY() - monster.getYPos();
+            float NORM = (XD * XD) + (YD * YD);
+            newbullet.setXd(XD / NORM);
+            newbullet.setYd(YD / NORM * -1);
+            App.ReturnCurrentGame().getEnemyBullets().add(newbullet);
+            monster.setShootingTime(0);
+        }
     }
 }

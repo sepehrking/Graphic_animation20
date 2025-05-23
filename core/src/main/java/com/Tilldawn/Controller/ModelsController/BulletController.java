@@ -6,13 +6,19 @@ import com.Tilldawn.model.*;
 import com.badlogic.gdx.Gdx;
 
 public class BulletController {
-    public void Update(Bullet bullet , float Delta)
+    public void Update(Bullet bullet , float Delta , boolean Enemy)
     {
         bullet.getCollision().setX(bullet.getPosx());
         bullet.getCollision().setY(bullet.getPosy());
         bullet.getSprite().setPosition(bullet.getPosx(), bullet.getPosy());
         bullet.getSprite().draw(Main.getBatch());
-        HandlePosition(bullet , Delta);
+        if(!Enemy) {
+            HandlePosition(bullet, Delta);
+        }
+        else
+        {
+            HandleEnemyBullets(bullet, Delta);
+        }
     }
 
     public void HandlePosition(Bullet bullet , Float Delta)
@@ -22,6 +28,18 @@ public class BulletController {
         CollideEnemies();
     }
 
+    public void HandleEnemyBullets(Bullet bullet , Float Delta)
+    {
+        bullet.setPosx(bullet.getPosx() + bullet.getXd() * Delta * 100000f) ;
+        bullet.setPosy(bullet.getPosy() - bullet.getYd() * Delta * 100000f) ;
+        if(bullet.getCollision().IsCollide(App.ReturnCurrentGame().getPlayer().getCol()))
+        {
+            App.ReturnCurrentGame().getPlayer().setHp(App.ReturnCurrentGame().getPlayer().getHp()  - 1);
+            App.ReturnCurrentGame().getEnemyBullets().remove(bullet);
+        }
+    }
+
+
     public void CollideEnemies()
     {
         for(int i = App.ReturnCurrentGame().getBullets().size()-1;i>=0;i--) {
@@ -30,7 +48,10 @@ public class BulletController {
                     if (App.ReturnCurrentGame().getBullets().get(i).getCollision().IsCollide(App.ReturnCurrentGame().getEnemies().get(j).getCollisionREcatangle()))
                     {
                         //Gdx.app.exit();
-                        App.ReturnCurrentGame().getEnemies().get(j).setHp(App.ReturnCurrentGame().getEnemies().get(j).getHp() - App.ReturnCurrentGame().getPlayer().getWeopenC().getDamageDamage());
+                        if(App.ReturnCurrentGame().getEnemies().get(j).getTimeDamaged() > 1) {
+                            App.ReturnCurrentGame().getEnemies().get(j).setHp(App.ReturnCurrentGame().getEnemies().get(j).getHp() - App.ReturnCurrentGame().getPlayer().getWeopenC().getDamageDamage());
+                            App.ReturnCurrentGame().getEnemies().get(j).setTimeDamaged(0);
+                        }
                         if(App.ReturnCurrentGame().getEnemies().get(j).getHp() <= 0) {
                             Seed newSeed = new Seed();
                             newSeed.setXpos(App.ReturnCurrentGame().getEnemies().get(j).getXPos());

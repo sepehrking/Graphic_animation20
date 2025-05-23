@@ -10,6 +10,12 @@ public class EnemyController {
     private TreeController treecontroller = new TreeController();
     private TenteacleController tenteacontroller = new TenteacleController();
     private EyeController eyecontroller = new EyeController();
+    private ElderBossController elderbosscontroller = new ElderBossController();
+
+    public ElderBossController getElderbosscontroller() {
+        return elderbosscontroller;
+    }
+
     public TreeController getTreecontroller() {
         return treecontroller;
     }
@@ -24,6 +30,7 @@ public class EnemyController {
 
     public void Update(Enemy enemy , float delta)
     {
+        enemy.setTimeDamaged(enemy.getTimeDamaged() + delta);
         if(enemy instanceof TREE)
         {
             TREE ourtree = (TREE) enemy;
@@ -38,6 +45,10 @@ public class EnemyController {
         {
             EyeBat ourmonster = (EyeBat) enemy;
             eyecontroller.Update(ourmonster , delta);
+        }
+        if(enemy instanceof ElderBoss)
+        {
+            elderbosscontroller.Update((ElderBoss) enemy , delta);
         }
     }
 

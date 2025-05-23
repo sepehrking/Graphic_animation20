@@ -123,4 +123,15 @@ public class GameAssets {
         return Ret;
     }
 
+    public ArrayList<String> CheatCodes()
+    {
+        ArrayList<String> CheatCodes = new ArrayList<>();
+        CheatCodes.add("1  :  The game will Skip for 1 minute");
+        CheatCodes.add("2  :  Add 1 level to character");
+        CheatCodes.add("3 :   get one health ");
+        CheatCodes.add("4 :   Go to the Bossfight");
+        CheatCodes.add("5 :   Increase the Amoo");
+        return CheatCodes;
+    }
+
 }

@@ -5,6 +5,16 @@ public class Timer {
     private float TacnecalMonsterSpawn = 0;
     private float EyebatSpawn = 0;
     private float LastTimeDamaged = 0;
+    private boolean BossAppear = false;
+
+    public boolean isBossAppear() {
+        return BossAppear;
+    }
+
+    public void setBossAppear(boolean bossAppear) {
+        BossAppear = bossAppear;
+    }
+
     public void IncreaseTime(float Delta)
     {
         Time += Delta;

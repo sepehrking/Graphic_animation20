@@ -59,7 +59,11 @@ public class GameMenuController {
                 enemyController.Update(enemy, Delta);
             }
             for (Bullet bullet : App.ReturnCurrentGame().getBullets()) {
-                bulletController.Update(bullet, Delta);
+                bulletController.Update(bullet, Delta , false);
+            }
+            for(int i = App.ReturnCurrentGame().getEnemyBullets().size() - 1 ; i >=0 ; i--) {
+                Bullet ourbullet = App.ReturnCurrentGame().getEnemyBullets().get(i);
+                bulletController.Update(ourbullet , Delta , true);
             }
             for (Seed seed : App.ReturnCurrentGame().getSeeds()) {
                 seedController.update(seed, Delta);
@@ -93,6 +97,14 @@ public class GameMenuController {
                         enemyController.getEyecontroller().CreateEyeBatMonster();
                     }
                     App.ReturnCurrentGame().getTimer().setEyebatSpawn(0);
+                }
+            }
+
+            if(App.ReturnCurrentGame().getTimer().getTime() > App.ReturnCurrentGame().getTotalTime() / 5)
+            {
+                if(!App.ReturnCurrentGame().getTimer().isBossAppear()) {
+                    enemyController.getElderbosscontroller().CreateElderBoss();
+                    App.ReturnCurrentGame().getTimer().setBossAppear(true);
                 }
             }
             ApplyExplosion(Delta);
@@ -148,6 +160,9 @@ public class GameMenuController {
                 gameMenu.getTable().setVisible(true);
                 gameMenu.getChooseAbilityTable().setVisible(false);
                 gameMenu.getResume().setChecked(false);
+            }
+            if(gameMenu.getGiveUP().isChecked()) {
+                Main.getMain().setScreen(new FinishMenu(new FinishMenuController()));
             }
         }
     }

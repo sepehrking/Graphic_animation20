@@ -124,6 +124,7 @@ public class PlayerController {
         {
             if(player.getWeopenC().getTimeinreload() > App.ReturnCurrentGame().getWeopen().TimeREload) {
                 if(player.getWeopenC().getAmoo() > 0 && player.getWeopenC().getTimeinShotting() > 0.5) {
+                    AudioManager.PlayShoot();
                     Bullet newbullet = new Bullet(App.ReturnCurrentGame().getPlayer().getPosX(), App.ReturnCurrentGame().getPlayer().getPosY());
                     float XD = Gdx.input.getX() - Gdx.graphics.getWidth() / 2f;
                     float YD = Gdx.input.getY() - Gdx.graphics.getHeight() / 2f;

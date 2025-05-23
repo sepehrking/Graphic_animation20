@@ -2,6 +2,7 @@ package com.Tilldawn.View;
 
 import com.Tilldawn.Controller.TalentContoller;
 import com.Tilldawn.Main;
+import com.Tilldawn.model.App;
 import com.Tilldawn.model.GameAssets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -11,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+import java.util.ArrayList;
 
 public class TalentMenu implements Screen{
     private Stage stage;
@@ -62,6 +65,32 @@ public class TalentMenu implements Screen{
             AbilityTable.add(new Label(Description.get(i), GameAssets.getInstance().getSkin()));
             AbilityTable.row();
         }
+
+        Table ControllersTable = new Table();
+        ControllersTable.setFillParent(true);
+        ControllersTable.bottom().left();
+        ControllersTable.setPosition(Gdx.graphics.getWidth() - 1500, Gdx.graphics.getHeight() - 700);
+        ControllersTable.add(new Label("Up  :"  + App.ReturnCurrentGame().getKeyborad().getUp() , GameAssets.getInstance().getSkin())).pad(10).left();
+        ControllersTable.row();
+        ControllersTable.add(new Label("Down  :"  + App.ReturnCurrentGame().getKeyborad().getDown() , GameAssets.getInstance().getSkin())).pad(10).left();
+        ControllersTable.row();
+        ControllersTable.add(new Label("Right   :" + App.ReturnCurrentGame().getKeyborad().getRightl() , GameAssets.getInstance().getSkin()));
+        ControllersTable.row();
+        ControllersTable.add(new Label("Left   :" + App.ReturnCurrentGame().getKeyborad().getLeftl() , GameAssets.getInstance().getSkin())).pad(10).left();
+        ControllersTable.row();
+
+        Table CheatCodes = new Table();
+        CheatCodes.setFillParent(true);
+        CheatCodes.bottom().left();
+        CheatCodes.setPosition(Gdx.graphics.getWidth() - 500, Gdx.graphics.getHeight() - 800);
+        ArrayList<String> Cheats = GameAssets.getInstance().CheatCodes();
+        for(String s : Cheats){
+            CheatCodes.add(new Label(s, GameAssets.getInstance().getSkin()));
+            CheatCodes.row();
+        }
+
+        stage.addActor(CheatCodes);
+        stage.addActor(ControllersTable);
         stage.addActor(AbilityTable);
         stage.addActor(HEROTable);
     }

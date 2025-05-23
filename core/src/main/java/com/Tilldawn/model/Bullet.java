@@ -14,9 +14,9 @@ public class Bullet {
     public Bullet(float posx, float posy) {
         posx += 50;
         posy += 20;
-        texture = new Texture("bullet.jpg");
+        texture = new Texture("T_AmmoIcon.png");
         sprite = new Sprite(texture);
-        sprite.setSize(texture.getWidth() / 5, texture.getHeight() / 5);
+        sprite.setSize(texture.getWidth()/3, texture.getHeight() / 3);
         sprite.setPosition(posx, posy);
         Posx = posx;
         Posy = posy;

@@ -11,6 +11,16 @@ public class Enemy {
     protected Sprite EnemySprite;
     protected int Hp;
     protected CollsionREcatangle collisionREcatangle  = new CollsionREcatangle();
+    protected float TimeDamaged = 0;
+
+
+    public float getTimeDamaged() {
+        return TimeDamaged;
+    }
+
+    public void setTimeDamaged(float timeDamaged) {
+        TimeDamaged = timeDamaged;
+    }
 
     public CollsionREcatangle getCollisionREcatangle() {
         return collisionREcatangle;
