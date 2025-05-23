@@ -5,11 +5,9 @@ import com.Tilldawn.model.Enums.Heros;
 import com.Tilldawn.model.Enums.Musics;
 import com.Tilldawn.model.Enums.Weopens;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -116,7 +114,7 @@ public class GameAssets {
         return users;
     }
 
-    public Animation<Texture> getCharacter1_idle_animation() {
+    public Animation<Texture> Character_idle_animation() {
         Animation<Texture> Ret = new Animation<>(0.1f , new Texture(App.ReturnCurrentGame().getHero().AnimationAdreeses.get(0)) , new Texture(App.ReturnCurrentGame().getHero().AnimationAdreeses.get(1))
         , new Texture(App.ReturnCurrentGame().getHero().AnimationAdreeses.get(2)) , new Texture(App.ReturnCurrentGame().getHero().AnimationAdreeses.get(3)) ,
             new Texture(App.ReturnCurrentGame().getHero().AnimationAdreeses.get(4)) , new Texture(App.ReturnCurrentGame().getHero().AnimationAdreeses.get(5)));
@@ -132,6 +130,22 @@ public class GameAssets {
         CheatCodes.add("4 :   Go to the Bossfight");
         CheatCodes.add("5 :   Increase the Amoo");
         return CheatCodes;
+    }
+
+    public Animation<Texture> getTentacleMonsterAnimation()
+    {
+        Animation ret = new Animation<>(0.1f , new Texture(Gdx.files.internal("Monsters/TentacleIdle0.png")) ,
+            new Texture(Gdx.files.internal("Monsters/TentacleIdle1.png")) , new Texture(Gdx.files.internal("Monsters/TentacleIdle2.png"))
+        , new Texture(Gdx.files.internal("Monsters/TentacleIdle3.png")));
+        return ret;
+    }
+
+    public Animation<Texture> BatAnimation()
+    {
+        Animation ret = new Animation<>(0.1f , new Texture(Gdx.files.internal("Monsters/T_EyeBat_0.png")) ,
+            new Texture(Gdx.files.internal("Monsters/T_EyeBat_1.png")) , new Texture(Gdx.files.internal("Monsters/T_EyeBat_2.png")) ,
+            new Texture(Gdx.files.internal("Monsters/T_EyeBat_3.png")));
+        return ret;
     }
 
 }

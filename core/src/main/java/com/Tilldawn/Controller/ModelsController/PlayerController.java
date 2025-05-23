@@ -193,7 +193,7 @@ public class PlayerController {
     }
 
     public void idleAnimation(float Delta){
-        Animation<Texture> animation = GameAssets.getInstance().getCharacter1_idle_animation();
+        Animation<Texture> animation = GameAssets.getInstance().Character_idle_animation();
 
         player.getPlayerSprite().setRegion(animation.getKeyFrame(player.getTime()));
 

@@ -4,6 +4,7 @@ import com.Tilldawn.Main;
 import com.Tilldawn.View.DestroyedAnimation;
 import com.Tilldawn.model.*;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class EnemyController {
@@ -31,6 +32,7 @@ public class EnemyController {
     public void Update(Enemy enemy , float delta)
     {
         enemy.setTimeDamaged(enemy.getTimeDamaged() + delta);
+        idleAnimation(enemy , delta);
         if(enemy instanceof TREE)
         {
             TREE ourtree = (TREE) enemy;
@@ -49,6 +51,18 @@ public class EnemyController {
         if(enemy instanceof ElderBoss)
         {
             elderbosscontroller.Update((ElderBoss) enemy , delta);
+        }
+    }
+
+    public void idleAnimation(Enemy enemy , float Delta){
+        if(enemy.getAnimation() != null) {
+            enemy.getAnimation().setPlayMode(Animation.PlayMode.LOOP);
+            enemy.getEnemySprite().setRegion(enemy.getAnimation().getKeyFrame(enemy.getAnimationTime()));
+            if (!enemy.getAnimation().isAnimationFinished(enemy.getAnimationTime())) {
+                enemy.setAnimationTime(enemy.getAnimationTime() + Delta);
+            } else {
+                enemy.setAnimationTime(0);
+            }
         }
     }
 

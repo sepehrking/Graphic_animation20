@@ -1,5 +1,6 @@
 package com.Tilldawn.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
@@ -12,5 +13,6 @@ public class TentacleMonster extends Enemy{
         collisionREcatangle.setY(YPos);
         collisionREcatangle.setWidth(texture.getWidth());
         collisionREcatangle.setHeight(texture.getHeight());
+        animation = GameAssets.getInstance().getTentacleMonsterAnimation();
     }
 }

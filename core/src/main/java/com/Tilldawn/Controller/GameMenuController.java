@@ -1,9 +1,6 @@
 package com.Tilldawn.Controller;
 
-import com.Tilldawn.Controller.ModelsController.BulletController;
-import com.Tilldawn.Controller.ModelsController.EnemyController;
-import com.Tilldawn.Controller.ModelsController.PlayerController;
-import com.Tilldawn.Controller.ModelsController.SeedController;
+import com.Tilldawn.Controller.ModelsController.*;
 import com.Tilldawn.Main;
 import com.Tilldawn.View.DestroyedAnimation;
 import com.Tilldawn.View.FinishMenu;
@@ -14,6 +11,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class GameMenuController {
+    private CheatcodeController cheatcodeController = new CheatcodeController();
     private Player player;
     private PlayerController playerController;
     private GirdController girdController;
@@ -55,6 +53,9 @@ public class GameMenuController {
             gameMenu.getLevelLable().setText("Level :  " + App.ReturnCurrentGame().getPlayer().getLevel());
             girdController.update();
             playerController.Update(Delta , camera);
+            int LEVEL = App.ReturnCurrentGame().getPlayer().getLevel();
+            float SHowXp = (((float) (20 * LEVEL * (LEVEL + 1)) / 2) - (float) App.ReturnCurrentGame().getPlayer().getXp()) / ((float) (20 * LEVEL * (LEVEL + 1)) / 2) * 100;
+            gameMenu.getXpBar().setValue(SHowXp);
             for (Enemy enemy : App.ReturnCurrentGame().getEnemies()) {
                 enemyController.Update(enemy, Delta);
             }
@@ -107,6 +108,7 @@ public class GameMenuController {
                     App.ReturnCurrentGame().getTimer().setBossAppear(true);
                 }
             }
+            cheatcodeController.update(enemyController.getElderbosscontroller());
             ApplyExplosion(Delta);
             CheckEndGame();
         }

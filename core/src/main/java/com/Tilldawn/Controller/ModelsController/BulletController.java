@@ -23,9 +23,9 @@ public class BulletController {
 
     public void HandlePosition(Bullet bullet , Float Delta)
     {
-        bullet.setPosx(bullet.getPosx() + bullet.getXd() * Delta * 100000f) ;
-        bullet.setPosy(bullet.getPosy() - bullet.getYd() * Delta * 100000f) ;
-        CollideEnemies();
+        bullet.setPosx(bullet.getPosx() + bullet.getXd() * Delta * 500000f) ;
+        bullet.setPosy(bullet.getPosy() - bullet.getYd() * Delta * 500000f) ;
+        CollideEnemies(Delta);
     }
 
     public void HandleEnemyBullets(Bullet bullet , Float Delta)
@@ -36,11 +36,13 @@ public class BulletController {
         {
             App.ReturnCurrentGame().getPlayer().setHp(App.ReturnCurrentGame().getPlayer().getHp()  - 1);
             App.ReturnCurrentGame().getEnemyBullets().remove(bullet);
+            DestroyedAnimation newAnimation = new DestroyedAnimation(App.ReturnCurrentGame().getPlayer().getPosX() , App.ReturnCurrentGame().getPlayer().getPosY());
+            App.ReturnCurrentGame().getDestroyedAnimations().add(newAnimation);
         }
     }
 
 
-    public void CollideEnemies()
+    public void CollideEnemies(float delta)
     {
         for(int i = App.ReturnCurrentGame().getBullets().size()-1;i>=0;i--) {
             for (int j = App.ReturnCurrentGame().getEnemies().size()-1;j>=0;j--) {
@@ -49,8 +51,19 @@ public class BulletController {
                     {
                         //Gdx.app.exit();
                         if(App.ReturnCurrentGame().getEnemies().get(j).getTimeDamaged() > 1) {
+                            App.ReturnCurrentGame().getEnemies().get(j).setXDamaged(App.ReturnCurrentGame().getBullets().get(i).getXd());
+                            App.ReturnCurrentGame().getEnemies().get(j).setYDamaged(App.ReturnCurrentGame().getBullets().get(i).getYd() * -1);
                             App.ReturnCurrentGame().getEnemies().get(j).setHp(App.ReturnCurrentGame().getEnemies().get(j).getHp() - App.ReturnCurrentGame().getPlayer().getWeopenC().getDamageDamage());
                             App.ReturnCurrentGame().getEnemies().get(j).setTimeDamaged(0);
+
+                        }
+                        else
+                        {
+                            Enemy enemy = App.ReturnCurrentGame().getEnemies().get(j);
+                            if(! (enemy instanceof ElderBoss)) {
+                                enemy.setXPos(enemy.getXPos() + (delta * enemy.getXDamaged() * 50000f));
+                                enemy.setYPos(enemy.getYPos() + (delta * enemy.getYDamaged() * 50000f));
+                            }
                         }
                         if(App.ReturnCurrentGame().getEnemies().get(j).getHp() <= 0) {
                             Seed newSeed = new Seed();

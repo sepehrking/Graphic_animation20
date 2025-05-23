@@ -1,6 +1,7 @@
 package com.Tilldawn.model;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
@@ -12,7 +13,38 @@ public class Enemy {
     protected int Hp;
     protected CollsionREcatangle collisionREcatangle  = new CollsionREcatangle();
     protected float TimeDamaged = 0;
+    protected float XDamaged = 0;
+    protected float YDamaged = 0;
+    protected float AnimationTime = 0;
+    protected Animation<Texture> animation = null;
 
+    public Animation<Texture> getAnimation() {
+        return animation;
+    }
+
+    public float getAnimationTime() {
+        return AnimationTime;
+    }
+
+    public void setAnimationTime(float animationTime) {
+        AnimationTime = animationTime;
+    }
+
+    public void setXDamaged(float XDamaged) {
+        this.XDamaged = XDamaged;
+    }
+
+    public void setYDamaged(float YDamaged) {
+        this.YDamaged = YDamaged;
+    }
+
+    public float getXDamaged() {
+        return XDamaged;
+    }
+
+    public float getYDamaged() {
+        return YDamaged;
+    }
 
     public float getTimeDamaged() {
         return TimeDamaged;

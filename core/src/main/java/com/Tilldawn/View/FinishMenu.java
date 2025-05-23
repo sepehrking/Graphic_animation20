@@ -34,10 +34,19 @@ public class FinishMenu implements Screen {
         {
             App.UpdateGame();
         }
+        Label WinOrLost = new Label("Dead", GameAssets.getInstance().getSkin());
+        WinOrLost.setSize(500 , 200);
+        WinOrLost.setPosition(Gdx.graphics.getWidth()/2 - 100, Gdx.graphics.getHeight()/2 - 100);
+        if(App.ReturnCurrentGame().getTimer().getTime() > App.ReturnCurrentGame().getTotalTime())
+        {
+            WinOrLost.setText("Victory");
+        }
         Table table = new Table();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         table.setFillParent(true);
+        table.add(WinOrLost);
+        table.row();
         if(App.UserLoginId != -1) {
             table.add(new Label("Username :   " + App.ReturnCurrentUser().getUseranme(), GameAssets.getInstance().getSkin()));
             table.row().padTop(20);

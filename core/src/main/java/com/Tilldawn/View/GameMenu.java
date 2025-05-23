@@ -4,11 +4,13 @@ import com.Tilldawn.Controller.GameMenuController;
 import com.Tilldawn.Main;
 import com.Tilldawn.model.App;
 import com.Tilldawn.model.GameAssets;
+import com.Tilldawn.model.Shading;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -16,6 +18,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import java.util.ArrayList;
 
 public class GameMenu implements Screen {
+    private Shading shading = new Shading();
     private OrthographicCamera camera;
     private GameMenuController controller;
     private Stage stage;
@@ -33,6 +36,11 @@ public class GameMenu implements Screen {
     private Label KillsLabel;
     private Label AmmoLable;
     private Label LevelLable;
+    private ProgressBar XpBar;
+
+    public ProgressBar getXpBar() {
+        return XpBar;
+    }
 
     public Label getAmmoLable() {
         return AmmoLable;
@@ -111,6 +119,7 @@ public class GameMenu implements Screen {
         KillsLabel = new Label("Kills :  0", GameAssets.getInstance().getSkin());
         LevelLable = new Label("Level :  1", GameAssets.getInstance().getSkin());
         AmmoLable = new Label("Ammo : " + App.ReturnCurrentGame().getWeopen().AmmoMAx, GameAssets.getInstance().getSkin());
+        XpBar = new ProgressBar(0, 100, 1f, false, GameAssets.getInstance().getSkin());
     }
 
     @Override
@@ -136,9 +145,12 @@ public class GameMenu implements Screen {
         camera.update();
         Gdx.input.setInputProcessor(stage);
         table.setFillParent(true);
+
         table.top().left().padTop(20).padLeft(20);
         table.add(PauseGame).width(100);
         table.padTop(10);
+        table.padLeft(100);
+        table.add(XpBar).width(300);
         table.row();
         table.add(HpLabel);
         table.row();
@@ -183,10 +195,12 @@ public class GameMenu implements Screen {
         float heroY = controller.getPlayer().getPosY();
         camera.position.set(heroX, heroY, 0);
         camera.update();
+        shading.update(App.ReturnCurrentGame().getPlayer().getPosX() , App.ReturnCurrentGame().getPlayer().getPosY() , Gdx.graphics.getWidth() , Gdx.graphics.getHeight());
         ScreenUtils.clear(0 , 0 , 0 , 1);
         Main.getBatch().setProjectionMatrix(camera.combined);
         Main.getBatch().begin();
         controller.Update(v , camera);
+        shading.render(Main.getBatch());
         Main.getBatch().end();
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();

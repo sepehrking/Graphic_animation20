@@ -22,5 +22,6 @@ public class EyeBat extends Enemy {
         collisionREcatangle.setY(YPos);
         collisionREcatangle.setWidth(texture.getWidth());
         collisionREcatangle.setHeight(texture.getHeight());
+        animation = GameAssets.getInstance().BatAnimation();
     }
 }
